@@ -2,6 +2,7 @@ package com.example.gourmetsearch
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,6 +13,7 @@ import com.example.gourmetsearch.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var currentShopList: List<Shop> = emptyList()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://webservice.recruit.co.jp/")
@@ -52,7 +55,14 @@ class MainActivity : ComponentActivity() {
         }
 
         binding.searchButton.setOnClickListener {
-            // TODO: 後で結果一覧画面へ移動する処理を書きます
+            if (currentShopList.isNotEmpty()) {
+                val intent = Intent(this, ListActivity::class.java)
+                val jsonString = Gson().toJson(currentShopList)
+                intent.putExtra("SHOP_LIST_JSON", jsonString)
+                startActivity(intent)
+            } else {
+                binding.locationText.text = "先に現在地を取得してください"
+            }
         }
     }
 
@@ -78,20 +88,21 @@ class MainActivity : ComponentActivity() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.locationText.text = "現在地取得完了！\nお店を検索中..."
-                    searchRestaurants(location.latitude, location.longitude)
+                    binding.locationText.text = "東京（新宿）でテスト検索中..."
+                    val tokyoLat = 35.690270
+                    val tokyoLng = 139.700049
+                    searchRestaurants(tokyoLat, tokyoLng)
                 } else {
                     binding.locationText.text = "取得失敗"
                 }
             }
     }
 
-    // APIと通信してお店を探す処理
     private fun searchRestaurants(lat: Double, lng: Double) {
         lifecycleScope.launch {
             try {
                 val response = apiService.searchRestaurants(
-                    apiKey = BuildConfig.API_KEY,
+                    apiKey = BuildConfig.HotPepper_API_KEY,
                     lat = lat,
                     lng = lng,
                     range = 3
@@ -99,7 +110,8 @@ class MainActivity : ComponentActivity() {
 
                 val shopList = response.results.shop
                 if (shopList.isNotEmpty()) {
-                    binding.locationText.text = "近くに ${shopList.size} 件のお店が見つかりました！\n\n1件目: ${shopList[0].name}"
+                    currentShopList = shopList
+                    binding.locationText.text = "近くに ${shopList.size} 件のお店が見つかりました！\n検索ボタンを押してください"
                 } else {
                     binding.locationText.text = "近くにお店が見つかりませんでした"
                 }
