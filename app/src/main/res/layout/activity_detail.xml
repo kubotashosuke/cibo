@@ -1,62 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/md_background">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
-        <ImageView
-            android:id="@+id/detailImage"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:background="#EEEEEE"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/detailNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="住所"
-            android:textSize="14sp"
-            android:textColor="#888888" />
-        <TextView
-            android:id="@+id/detailAddressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginBottom="12dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="営業時間"
-            android:textSize="14sp"
-            android:textColor="#888888" />
-        <TextView
-            android:id="@+id/detailOpenText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginBottom="32dp" />
-
-        <Button
-            android:id="@+id/backButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="一覧に戻る" />
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
 
-    </LinearLayout>
-</ScrollView>
+            <!-- ===== ヒーロー画像 + 戻るボタン ===== -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="260dp">
+
+                <ImageView
+                    android:id="@+id/detailImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="@color/md_surface_container_high" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/scrim_gradient" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_margin="16dp"
+                    android:contentDescription="戻る"
+                    app:srcCompat="@drawable/ic_arrow_back"
+                    app:fabSize="mini"
+                    app:backgroundTint="@color/md_surface_container_lowest"
+                    app:tint="@color/md_on_surface" />
+            </FrameLayout>
+
+            <!-- ===== 本文カード（画像に少し重ねる） ===== -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/md_surface_container_lowest">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/detailNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_on_surface"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- 住所 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="14dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="10dp"
+                            app:tint="@color/md_primary"
+                            app:srcCompat="@drawable/ic_location" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="住所"
+                                android:textSize="12sp"
+                                android:textColor="@color/md_on_surface_variant" />
+                            <TextView
+                                android:id="@+id/detailAddressText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:textColor="@color/md_on_surface" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 営業時間 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="14dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="10dp"
+                            app:tint="@color/md_primary"
+                            app:srcCompat="@drawable/ic_clock" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="営業時間"
+                                android:textSize="12sp"
+                                android:textColor="@color/md_on_surface_variant" />
+                            <TextView
+                                android:id="@+id/detailOpenText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:textColor="@color/md_on_surface" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 予算 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="10dp"
+                            app:tint="@color/md_primary"
+                            app:srcCompat="@drawable/ic_wallet" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="予算の目安"
+                                android:textSize="12sp"
+                                android:textColor="@color/md_on_surface_variant" />
+                            <TextView
+                                android:id="@+id/detailBudgetText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/md_tertiary" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/goHereButton"
+                        style="@style/Widget.GourmetSearch.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="ここに行く"
+                        android:textSize="16sp"
+                        app:icon="@drawable/ic_navigation"
+                        app:iconGravity="textStart" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

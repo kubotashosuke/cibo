@@ -1,29 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:background="@color/md_background">
 
-    <TextView
-        android:id="@+id/locationText"
+    <org.maplibre.android.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:maplibre_renderTextureMode="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ===== マップ上部：検索半径チップ ===== -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mapChipCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="未取得"
-        android:textSize="18sp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="48dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/md_surface_container_lowest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/rangeChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                app:chipSpacingHorizontal="6dp"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+                <com.google.android.material.chip.Chip android:id="@+id/chip300" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="300m" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip500" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="500m" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip1000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="1km" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip2000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2km" />
+                <com.google.android.material.chip.Chip android:id="@+id/chip3000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3km" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+    </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/getLocationButton"
+    <!-- ===== マップモード用フィルターFAB ===== -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mapFilterFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="現在地を取得する"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="絞り込み"
+        app:srcCompat="@drawable/ic_filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation" />
 
-    <Button
-        android:id="@+id/searchButton"
+    <!-- ===== マップフィルター適用中バッジ ===== -->
+    <com.google.android.material.chip.Chip
+        android:id="@+id/mapFilterActiveChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="検索する（結果一覧へ）"/>
-</LinearLayout>
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="絞り込み中"
+        android:textColor="@color/md_on_primary_container"
+        app:chipBackgroundColor="@color/md_primary_container"
+        app:chipStrokeWidth="0dp"
+        android:visibility="gone"
+        app:closeIconVisible="true"
+        app:closeIconTint="@color/md_on_primary_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation" />
+
+    <!-- ===== リストモード ===== -->
+    <LinearLayout
+        android:id="@+id/listContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@color/md_background"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingTop="12dp"
+            android:paddingBottom="6dp">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/listRangeChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                app:chipSpacingHorizontal="6dp"
+                app:singleSelection="true"
+                app:selectionRequired="true">
+                <com.google.android.material.chip.Chip android:id="@+id/listChip300" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="300m" />
+                <com.google.android.material.chip.Chip android:id="@+id/listChip500" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="500m" />
+                <com.google.android.material.chip.Chip android:id="@+id/listChip1000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="1km" />
+                <com.google.android.material.chip.Chip android:id="@+id/listChip2000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2km" />
+                <com.google.android.material.chip.Chip android:id="@+id/listChip3000" style="@style/Widget.GourmetSearch.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3km" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_outline_variant"
+            android:layout_marginTop="4dp" />
+
+        <!-- フィルターボタン行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/listFilterButton"
+                style="@style/Widget.GourmetSearch.Button.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:minWidth="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingHorizontal="14dp"
+                android:text="絞り込み"
+                android:textSize="13sp"
+                app:icon="@drawable/ic_filter"
+                app:iconSize="16dp"
+                app:iconPadding="4dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/listFilterActiveChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="絞り込み中"
+                android:textColor="@color/md_on_primary_container"
+                app:chipBackgroundColor="@color/md_primary_container"
+                app:chipStrokeWidth="0dp"
+                app:closeIconTint="@color/md_on_primary_container"
+                android:visibility="gone"
+                app:closeIconVisible="true" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="12dp"
+                android:paddingBottom="12dp" />
+
+            <LinearLayout
+                android:id="@+id/listEmptyHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="条件に合うお店が見つかりません"
+                    android:textSize="15sp"
+                    android:textColor="@color/md_on_surface_variant"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/listEmptyClearFilterButton"
+                    style="@style/Widget.GourmetSearch.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="絞り込みを解除" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/md_surface_container_lowest"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

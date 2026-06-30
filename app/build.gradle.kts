@@ -1,7 +1,10 @@
 import java.util.Properties
 
 val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
+val localPropertiesFile = project.rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.inputStream())
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -21,12 +24,21 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        buildConfigField("String", "HotPepper_API_KEY", "\"${properties.getProperty("HotPepper_API_KEY")}\"")
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "HOTPEPPER_API_KEY", "\"${properties.getProperty("HOTPEPPER_API_KEY") ?: ""}\"")
+            buildConfigField("String", "MAPTILER_API_KEY", "\"${properties.getProperty("MAPTILER_API_KEY") ?: ""}\"")
+        }
         release {
+            buildConfigField("String", "HOTPEPPER_API_KEY", "\"${properties.getProperty("HOTPEPPER_API_KEY") ?: ""}\"")
+            buildConfigField("String", "MAPTILER_API_KEY", "\"${properties.getProperty("MAPTILER_API_KEY") ?: ""}\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -34,6 +46,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -41,15 +54,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-        viewBinding = true
-    }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,9 +66,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,4 +82,9 @@ dependencies {
     implementation("io.coil-kt:coil:2.6.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    implementation("org.maplibre.gl:android-sdk:11.0.0")
+    implementation("org.maplibre.gl:android-plugin-annotation-v9:3.0.2")
+
+    implementation("com.google.android.material:material:1.12.0")
 }

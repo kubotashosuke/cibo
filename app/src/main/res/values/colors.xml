@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- ===== Primary: テラコッタオレンジ（食欲・温かみ） ===== -->
+    <color name="md_primary">#C8552C</color>
+    <color name="md_on_primary">#FFFFFF</color>
+    <color name="md_primary_container">#FFDBCB</color>
+    <color name="md_on_primary_container">#3A0B00</color>
+
+    <!-- ===== Secondary: ディープティール（補色でアクセント・新鮮さ） ===== -->
+    <color name="md_secondary">#3D6B5C</color>
+    <color name="md_on_secondary">#FFFFFF</color>
+    <color name="md_secondary_container">#BFEEDB</color>
+    <color name="md_on_secondary_container">#002016</color>
+
+    <!-- ===== Tertiary: マスタードイエロー（小さなアクセント） ===== -->
+    <color name="md_tertiary">#8C5A00</color>
+    <color name="md_on_tertiary">#FFFFFF</color>
+    <color name="md_tertiary_container">#FFDDB1</color>
+    <color name="md_on_tertiary_container">#2B1700</color>
+
+    <!-- ===== Error ===== -->
+    <color name="md_error">#BA1A1A</color>
+    <color name="md_on_error">#FFFFFF</color>
+    <color name="md_error_container">#FFDAD6</color>
+    <color name="md_on_error_container">#410002</color>
+
+    <!-- ===== Neutral / Surface ===== -->
+    <color name="md_background">#FFF8F5</color>
+    <color name="md_on_background">#231A15</color>
+    <color name="md_surface">#FFF8F5</color>
+    <color name="md_on_surface">#231A15</color>
+    <color name="md_surface_variant">#F4DED3</color>
+    <color name="md_on_surface_variant">#52443C</color>
+    <color name="md_outline">#85746B</color>
+    <color name="md_outline_variant">#D7C3B8</color>
+
+    <color name="md_surface_container_lowest">#FFFFFF</color>
+    <color name="md_surface_container_low">#FFF1EB</color>
+    <color name="md_surface_container">#FCEAE2</color>
+    <color name="md_surface_container_high">#F7E4DC</color>
+    <color name="md_surface_container_highest">#F1DED6</color>
+
+    <!-- ===== その他用途別カラー ===== -->
+    <color name="rating_star">#E8A317</color>
+    <color name="map_pin_shadow">#33000000</color>
+    <color name="overlay_scrim">#66000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
 </resources>

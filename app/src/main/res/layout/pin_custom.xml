@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- ピン本体（白い円＋縁取り） -->
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/pin_circle_background"
+        android:padding="9dp">
+
+        <ImageView
+            android:id="@+id/pinIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
+
+    </FrameLayout>
+
+    <!-- 下向きの三角（吹き出しの尻尾） -->
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="8dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="-6dp"
+        android:src="@drawable/pin_pointer" />
+
+</FrameLayout>

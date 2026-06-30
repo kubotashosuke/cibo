@@ -14,21 +14,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GourmetSearch">
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ListActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.GourmetSearch">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

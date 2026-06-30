@@ -1,36 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
-
-    <ImageView
-        android:id="@+id/shopImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:scaleType="centerCrop"
-        android:background="#EEEEEE" />
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/md_surface_container_lowest"
+    app:strokeColor="@color/md_outline_variant"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="16dp">
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/shopNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/shopImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@color/md_surface_container_high" />
+        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/shopAccessText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:textColor="#666666" />
+            android:layout_weight="1"
+            android:layout_marginStart="14dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shopNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/md_on_surface"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/shopGenreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/genre_badge_background"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:textSize="11sp"
+                android:textColor="@color/md_on_secondary_container" />
+
+            <TextView
+                android:id="@+id/shopAccessText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="12sp"
+                android:textColor="@color/md_on_surface_variant"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/shopBudgetText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/md_tertiary" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            app:tint="@color/md_outline"
+            app:srcCompat="@drawable/ic_chevron_right" />
+
     </LinearLayout>
-</LinearLayout>
+
+</androidx.cardview.widget.CardView>
